@@ -1,0 +1,647 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>kikikian</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --bg:      #0e0e10;
+  --surface: #121214;
+  --border:  #1f1f24;
+  --muted:   #44444e;
+  --dim:     #2e2e36;
+  --text:    #b0b0bc;
+  --bright:  #e8e8f0;
+  --green:   #4ade80;
+  --green-dim: rgba(74, 222, 128, 0.08);
+  --blue:    #60a5fa;
+  --blue-dim: rgba(96, 165, 250, 0.08);
+  --font-body:  -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --font-title: 'Syne', sans-serif;
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-body);
+  font-size: 14px;
+  line-height: 1.6;
+  overflow-x: hidden;
+}
+
+a { color: inherit; text-decoration: none; }
+
+/* ── NAV ── */
+nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 22px 60px;
+  border-bottom: 1px solid var(--border);
+  position: sticky;
+  top: 0;
+  background: rgba(14,14,16,0.88);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  z-index: 50;
+  opacity: 0;
+  animation: fadeDown 0.5s 0.05s ease forwards;
+}
+
+.logo {
+  font-family: var(--font-title);
+  font-size: 15px;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  color: var(--bright);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.logo-mark {
+  width: 20px;
+  height: 20px;
+  position: relative;
+  flex-shrink: 0;
+}
+.logo-mark::before,
+.logo-mark::after {
+  content: '';
+  position: absolute;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  border: 1.5px solid var(--bright);
+  top: 50%;
+  transform: translateY(-50%);
+}
+.logo-mark::before { left: 0; }
+.logo-mark::after  { right: 0; border-color: var(--green); }
+
+/* ── HERO ── */
+.hero {
+  padding: 80px 60px 72px;
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  gap: 44px;
+  opacity: 0;
+  animation: fadeUp 0.6s 0.15s ease forwards;
+}
+
+.avatar-wrap {
+  width: 92px;
+  height: 92px;
+  border-radius: 50%;
+  flex-shrink: 0;
+  position: relative;
+}
+
+.avatar-ring {
+  position: absolute;
+  inset: -3px;
+  border-radius: 50%;
+  border: 1px solid transparent;
+  animation: spin 8s linear infinite;
+  border-top-color: var(--green);
+}
+
+.avatar {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  object-fit: cover;
+  z-index: 1;
+}
+
+.hero-text h1 {
+  font-family: var(--font-title);
+  font-size: clamp(52px, 8vw, 84px);
+  font-weight: 800;
+  letter-spacing: -0.025em;
+  line-height: 0.95;
+  color: var(--bright);
+  margin-bottom: 16px;
+}
+
+.hero-links {
+  display: flex;
+  gap: 14px;
+  flex-wrap: wrap;
+  margin-top: 4px;
+}
+
+.hero-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-family: var(--font-title);
+  font-size: 17px;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  padding: 10px 20px;
+  border-radius: 6px;
+  border: 1px solid var(--border);
+  color: var(--bright);
+  transition: border-color 0.2s, color 0.2s, background 0.2s;
+}
+
+.hero-link.gh:hover {
+  border-color: var(--green);
+  color: var(--green);
+  background: rgba(74,222,128,0.05);
+}
+
+.hero-link.cb:hover {
+  border-color: var(--blue);
+  color: var(--blue);
+  background: rgba(96,165,250,0.05);
+}
+
+/* ── ENHANCED BIO ── */
+.bio {
+  padding: 56px 60px;
+  border-bottom: 1px solid var(--border);
+  opacity: 0;
+  animation: fadeUp 0.6s 0.25s ease forwards;
+  background: linear-gradient(
+    to bottom,
+    transparent,
+    rgba(74, 222, 128, 0.012) 40%,
+    transparent
+  );
+}
+
+.bio-inner {
+  display: grid;
+  grid-template-columns: 160px 1fr;
+  gap: 0 52px;
+  align-items: start;
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+.bio-label {
+  font-size: 10px;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: var(--dim);
+  padding-top: 8px;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.bio-label::after {
+  content: '';
+  height: 1px;
+  width: 24px;
+  background: linear-gradient(to right, var(--dim), transparent);
+}
+
+.bio-body {
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+}
+
+.bio-text-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.bio-highlight {
+  font-family: var(--font-title);
+  font-size: 22px;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  line-height: 1.3;
+  color: var(--bright);
+  margin-bottom: 4px;
+}
+
+.bio-highlight strong {
+  color: var(--green);
+  font-weight: 800;
+  position: relative;
+  display: inline-block;
+}
+
+.bio-highlight strong::after {
+  content: '';
+  position: absolute;
+  bottom: 2px;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background: var(--green);
+  opacity: 0.2;
+  border-radius: 1px;
+}
+
+.bio-text {
+  font-size: 15px;
+  color: var(--text);
+  line-height: 1.85;
+  max-width: 580px;
+}
+
+.bio-text a {
+  color: var(--bright);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  text-decoration-color: var(--dim);
+  text-decoration-thickness: 1px;
+  transition: text-decoration-color 0.2s, color 0.2s;
+}
+
+.bio-text a:hover {
+  text-decoration-color: var(--green);
+  color: var(--green);
+}
+
+.bio-divider {
+  height: 1px;
+  width: 100%;
+  max-width: 120px;
+  background: linear-gradient(to right, var(--border), transparent);
+  margin: 8px 0 4px;
+}
+
+.bio-footer {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  flex-wrap: wrap;
+}
+
+.bio-tags {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.bio-tag {
+  font-size: 11px;
+  letter-spacing: 0.06em;
+  color: var(--muted);
+  border: 1px solid var(--border);
+  padding: 5px 12px;
+  border-radius: 20px;
+  transition: all 0.2s ease;
+  font-weight: 500;
+  background: var(--surface);
+  backdrop-filter: blur(4px);
+}
+
+.bio-tag:hover {
+  color: var(--bright);
+  border-color: var(--green);
+  background: var(--green-dim);
+  transform: translateY(-1px);
+}
+
+.bio-location {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  color: var(--muted);
+  margin-left: auto;
+}
+
+.bio-location svg {
+  opacity: 0.5;
+}
+
+.bio-location span {
+  color: var(--text);
+}
+
+/* ── REPOS ── */
+.repos {
+  padding: 0 60px;
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+.repos-heading {
+  font-size: 10px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--dim);
+  padding: 52px 0 20px;
+}
+
+.repo-list { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0; }
+
+.repo {
+  padding: 28px 24px;
+  border-radius: 6px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  opacity: 0;
+  transform: translateY(12px);
+  transition: background 0.2s;
+}
+
+.repo.visible {
+  animation: fadeUp 0.5s ease forwards;
+}
+
+.repo:hover {
+  background: rgba(255,255,255,0.02);
+}
+
+.repo-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.repo-name {
+  font-family: var(--font-title);
+  font-size: 26px;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  color: var(--green);
+  line-height: 1.1;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  transition: color 0.2s;
+}
+
+.repo-name::after {
+  content: '↗';
+  font-size: 13px;
+  opacity: 0;
+  transform: translate(-3px, 3px);
+  transition: opacity 0.2s, transform 0.2s;
+  font-family: var(--font-body);
+  font-weight: 400;
+}
+
+.repo-name:hover { color: #86efac; }
+.repo-name:hover::after { opacity: 0.7; transform: translate(0, 0); }
+
+.repo-name-codeberg {
+  font-family: var(--font-title);
+  font-size: 26px;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  color: var(--blue);
+  line-height: 1.1;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  transition: color 0.2s;
+}
+
+.repo-name-codeberg::after {
+  content: '↗';
+  font-size: 13px;
+  opacity: 0;
+  transform: translate(-3px, 3px);
+  transition: opacity 0.2s, transform 0.2s;
+  font-family: var(--font-body);
+  font-weight: 400;
+}
+
+.repo-name-codeberg:hover { color: #93c5fd; }
+.repo-name-codeberg:hover::after { opacity: 0.7; transform: translate(0, 0); }
+
+.repo-slash {
+  font-family: var(--font-title);
+  font-size: 26px;
+  font-weight: 800;
+  line-height: 1.1;
+  color: var(--dim);
+  display: flex;
+  align-items: center;
+  user-select: none;
+}
+
+.repo-desc {
+  font-size: 13px;
+  color: var(--muted);
+  line-height: 1.75;
+}
+
+/* ── FOOTER ── */
+footer {
+  border-top: 1px solid var(--border);
+  padding: 28px 60px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 72px;
+  opacity: 0;
+  animation: fadeUp 0.5s 0.35s ease forwards;
+}
+
+.footer-links { display: flex; gap: 24px; list-style: none; }
+.footer-links a {
+  font-size: 12px;
+  color: var(--muted);
+  transition: color 0.2s;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  text-decoration-color: transparent;
+}
+.footer-links a:hover { color: var(--bright); text-decoration-color: var(--border); }
+.footer-copy { font-size: 11px; color: var(--dim); }
+
+/* ── KEYFRAMES ── */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(14px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes fadeDown {
+  from { opacity: 0; transform: translateY(-8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+/* ── RESPONSIVE ── */
+@media (max-width: 740px) and (min-width: 501px) {
+  .repo-list { grid-template-columns: repeat(2, 1fr); }
+  .bio-inner { grid-template-columns: 1fr; gap: 16px; }
+  .bio-location { margin-left: 0; }
+  .bio-footer { flex-direction: column; align-items: flex-start; gap: 16px; }
+}
+
+@media (max-width: 500px) {
+  nav, footer { padding-left: 22px; padding-right: 22px; }
+  .repos { padding-left: 22px; padding-right: 22px; }
+  .bio { padding: 40px 22px; }
+  .bio-inner { grid-template-columns: 1fr; gap: 16px; }
+  .hero { padding: 52px 22px 44px; flex-direction: column; align-items: flex-start; gap: 20px; }
+  footer { flex-direction: column; gap: 14px; align-items: flex-start; }
+  .repo-name, .repo-name-codeberg, .repo-slash { font-size: 18px; }
+  .repo-list { grid-template-columns: 1fr; }
+  .bio-highlight { font-size: 20px; }
+  .bio-location { margin-left: 0; }
+  .bio-footer { flex-direction: column; align-items: flex-start; gap: 16px; }
+  .bio-label::after { display: none; }
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <span class="logo">
+    <span class="logo-mark"></span>
+    kikikian
+  </span>
+</nav>
+
+<section class="hero">
+  <div class="avatar-wrap">
+    <div class="avatar-ring"></div>
+    <img class="avatar" src="data:image/webp;base64,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" alt="kikikian">
+  </div>
+  <div class="hero-text">
+    <h1>kikikian</h1>
+    <div class="hero-links">
+      <a class="hero-link gh" href="https://github.com/kikikian" target="_blank" rel="noopener">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z"/></svg>
+        github
+      </a>
+      <a class="hero-link cb" href="https://codeberg.org/kikikian" target="_blank" rel="noopener">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0a12 12 0 1 0 0 24A12 12 0 0 0 12 0zm-.012 2a10 10 0 0 1 .012 0 10 10 0 0 1 10 10 10 10 0 0 1-10 10A10 10 0 0 1 2 12 10 10 0 0 1 11.988 2zM8.5 6.5a.75.75 0 0 0-.75.75v6.5l4.25 3.75 4.25-3.75v-6.5a.75.75 0 0 0-.75-.75H8.5zm.75 1.5h5.5v5.72l-2.75 2.43-2.75-2.43V8z"/></svg>
+        codeberg
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ── ENHANCED BIO ── -->
+<section class="bio">
+  <div class="bio-inner">
+    <span class="bio-label">about</span>
+    <div class="bio-body">
+      <div class="bio-text-wrapper">
+        <div class="bio-highlight">
+          Building <strong>Lipi</strong> — a phonetic bridge for Gujarati script.
+        </div>
+        <p class="bio-text">
+          Student & Programmer based in Seattle. I code a variety of projects from preserving my native language to space simulations. Currently learning Go (golang). Also current maintainer of Lipi. My work lives on <a href="https://github.com/kikikian" target="_blank">GitHub</a> and <a href="https://codeberg.org/kikikian" target="_blank">Codeberg</a>.
+        </p>
+      </div>
+      
+      <div class="bio-divider"></div>
+      
+      <div class="bio-footer">
+        <div class="bio-tags">
+          <span class="bio-tag">Python</span>
+          <span class="bio-tag">Go</span>
+          <span class="bio-tag">JavaScript</span>
+          <span class="bio-tag">Linux</span>
+        </div>
+        <div class="bio-location">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/>
+            <circle cx="12" cy="9" r="2.5" fill="currentColor"/>
+          </svg>
+          <span>Seattle, WA</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="repos" id="repos">
+  <p class="repos-heading">projects</p>
+  <div class="repo-list">
+
+    <div class="repo">
+      <div class="repo-header">
+        <a class="repo-name" href="https://github.com/KikiKian/lipi" target="_blank" rel="noopener">lipi</a>
+        <span class="repo-slash">/</span>
+        <a class="repo-name-codeberg" href="https://codeberg.org/kikikian/lipi" target="_blank" rel="noopener">lipi</a>
+      </div>
+      <p class="repo-desc">A phonetic romanization system for Gujarati script.</p>
+    </div>
+
+    <div class="repo">
+      <div class="repo-header">
+        <a class="repo-name" href="https://github.com/KikiKian/orrery" target="_blank" rel="noopener">orrery</a>
+      </div>
+      <p class="repo-desc">A realistic simulation of planet gravity in space using real mathematical equations.</p>
+    </div>
+
+    <div class="repo">
+      <div class="repo-header">
+        <a class="repo-name" href="https://github.com/KikiKian/Even-Better-CC-Ported" target="_blank" rel="noopener">even-better-cc-ported</a>
+      </div>
+      <p class="repo-desc">A gaming website with a proxy. Games are not mine!</p>
+    </div>
+
+    <div class="repo">
+      <div class="repo-header">
+        <a class="repo-name" href="https://github.com/KikiKian/Kikis-Cloak" target="_blank" rel="noopener">kikis-cloak</a>
+      </div>
+      <p class="repo-desc">A lightweight Python tool that spoofs your MAC address on Linux, making your device unrecognizable to your router's device-based filters.</p>
+    </div>
+
+    <div class="repo">
+      <div class="repo-header">
+        <a class="repo-name" href="https://github.com/KikiKian/Web-Page-Summary" target="_blank" rel="noopener">web-page-summary</a>
+      </div>
+      <p class="repo-desc">A Python web scraper that extracts text from websites and generates AI-powered summaries using OpenAI's GPT models.</p>
+    </div>
+
+    <div class="repo">
+      <div class="repo-header">
+        <a class="repo-name" href="https://github.com/KikiKian/Installer-Script-for-Rainmeter" target="_blank" rel="noopener">installer-script-for-rainmeter</a>
+      </div>
+      <p class="repo-desc">A script that downloads your Rainmeter mod to people's computers.</p>
+    </div>
+
+  </div>
+</section>
+
+<footer>
+  <ul class="footer-links">
+    <li><a href="https://github.com/kikikian" target="_blank" rel="noopener">github</a></li>
+    <li><a href="https://codeberg.org/kikikian" target="_blank" rel="noopener">codeberg</a></li>
+  </ul>
+  <span class="footer-copy">© 2025 kikikian</span>
+</footer>
+
+<script>
+const repos = document.querySelectorAll('.repo');
+const io = new IntersectionObserver((entries) => {
+  entries.forEach((e, i) => {
+    if (e.isIntersecting) {
+      e.target.style.animationDelay = (i * 0.08) + 's';
+      e.target.classList.add('visible');
+      io.unobserve(e.target);
+    }
+  });
+}, { threshold: 0.08 });
+repos.forEach(r => io.observe(r));
+</script>
+
+</body>
+</html>
