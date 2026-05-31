@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>kikikian</title>
-<link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=IBM+Plex+Mono:wght@400;600&family=Press+Start+2P&display=swap" rel="stylesheet">
 <link rel="icon" type="image/png" href="images/pfp.png">
 <!-- Standard favicon -->
 <link rel="icon" type="image/png" sizes="32x32" href="pfp.png">
@@ -25,8 +25,8 @@
   --green-dim: rgba(74, 222, 128, 0.08);
   --blue:    #60a5fa;
   --blue-dim: rgba(96, 165, 250, 0.08);
-  --font-body:  -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-  --font-title: 'Syne', sans-serif;
+  --font-body:  'IBM Plex Mono', monospace;
+  --font-title: 'Press Start 2P', cursive;
 }
 
 html { scroll-behavior: smooth; }
@@ -42,7 +42,6 @@ body {
 
 a { color: inherit; text-decoration: none; }
 
-/* ── NAV ── */
 nav {
   display: flex;
   align-items: center;
@@ -52,18 +51,16 @@ nav {
   position: sticky;
   top: 0;
   background: rgba(14,14,16,0.88);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
   z-index: 50;
   opacity: 0;
-  animation: fadeDown 0.5s 0.05s ease forwards;
+  animation: fadeDown 0.3s 0.05s ease forwards;
 }
 
 .logo {
-  font-family: var(--font-title);
-  font-size: 15px;
-  font-weight: 800;
-  letter-spacing: 0.08em;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.05em;
   color: var(--bright);
   display: flex;
   align-items: center;
@@ -98,7 +95,7 @@ nav {
   align-items: center;
   gap: 44px;
   opacity: 0;
-  animation: fadeUp 0.6s 0.15s ease forwards;
+  animation: fadeUp 0.4s 0.05s ease forwards;
 }
 
 .avatar-wrap {
@@ -129,10 +126,10 @@ nav {
 }
 
 .hero-text h1 {
-  font-family: var(--font-title);
-  font-size: clamp(52px, 8vw, 84px);
-  font-weight: 800;
-  letter-spacing: -0.025em;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: clamp(32px, 8vw, 56px);
+  font-weight: 600;
+  letter-spacing: 0.05em;
   line-height: 0.95;
   color: var(--bright);
   margin-bottom: 16px;
@@ -177,13 +174,7 @@ nav {
   padding: 56px 60px;
   border-bottom: 1px solid var(--border);
   opacity: 0;
-  animation: fadeUp 0.6s 0.25s ease forwards;
-  background: linear-gradient(
-    to bottom,
-    transparent,
-    rgba(74, 222, 128, 0.012) 40%,
-    transparent
-  );
+  animation: fadeUp 0.4s 0.05s ease forwards;
 }
 
 .bio-inner {
@@ -196,15 +187,16 @@ nav {
 }
 
 .bio-label {
-  font-size: 10px;
-  letter-spacing: 0.25em;
+  font-size: 11px;
+  letter-spacing: 0.1em;
   text-transform: uppercase;
-  color: var(--dim);
+  color: var(--muted);
   padding-top: 8px;
   font-weight: 600;
   display: flex;
   align-items: center;
   gap: 10px;
+  font-family: 'IBM Plex Mono', monospace;
 }
 
 .bio-label::after {
@@ -227,10 +219,10 @@ nav {
 }
 
 .bio-highlight {
-  font-family: var(--font-title);
-  font-size: 22px;
-  font-weight: 700;
-  letter-spacing: -0.01em;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 18px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
   line-height: 1.3;
   color: var(--bright);
   margin-bottom: 4px;
@@ -349,25 +341,40 @@ nav {
   padding: 52px 0 20px;
 }
 
-.repo-list { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0; }
+.repo-list { display: flex; flex-direction: column; gap: 0; }
 
 .repo {
-  padding: 28px 24px;
-  border-radius: 6px;
+  padding: 20px 0;
+  border-bottom: 1px solid var(--border);
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 12px;
   opacity: 0;
-  transform: translateY(12px);
-  transition: background 0.2s;
+  transform: translateY(0);
+  transition: color 0.2s;
 }
 
 .repo.visible {
-  animation: fadeUp 0.5s ease forwards;
+  animation: fadeUp 0.3s ease forwards;
 }
 
-.repo:hover {
-  background: rgba(255,255,255,0.02);
+.repo:hover .repo-name,
+.repo:hover .repo-name-codeberg {
+  color: #86efac;
+}
+
+.repo-screenshot {
+  width: 100%;
+  height: 200px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  object-fit: cover;
+  transition: opacity 0.2s;
+}
+
+.repo:hover .repo-screenshot {
+  opacity: 0.8;
 }
 
 .repo-header {
@@ -378,10 +385,10 @@ nav {
 }
 
 .repo-name {
-  font-family: var(--font-title);
-  font-size: 26px;
-  font-weight: 800;
-  letter-spacing: -0.02em;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 20px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
   color: var(--green);
   line-height: 1.1;
   text-decoration: none;
@@ -392,23 +399,20 @@ nav {
 }
 
 .repo-name::after {
-  content: '↗';
+  content: ' ↗';
   font-size: 13px;
-  opacity: 0;
-  transform: translate(-3px, 3px);
-  transition: opacity 0.2s, transform 0.2s;
+  opacity: 0.5;
   font-family: var(--font-body);
   font-weight: 400;
 }
 
-.repo-name:hover { color: #86efac; }
-.repo-name:hover::after { opacity: 0.7; transform: translate(0, 0); }
+.repo:hover .repo-name { color: #86efac; }
 
 .repo-name-codeberg {
-  font-family: var(--font-title);
-  font-size: 26px;
-  font-weight: 800;
-  letter-spacing: -0.02em;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 20px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
   color: var(--blue);
   line-height: 1.1;
   text-decoration: none;
@@ -419,22 +423,19 @@ nav {
 }
 
 .repo-name-codeberg::after {
-  content: '↗';
+  content: ' ↗';
   font-size: 13px;
-  opacity: 0;
-  transform: translate(-3px, 3px);
-  transition: opacity 0.2s, transform 0.2s;
+  opacity: 0.5;
   font-family: var(--font-body);
   font-weight: 400;
 }
 
-.repo-name-codeberg:hover { color: #93c5fd; }
-.repo-name-codeberg:hover::after { opacity: 0.7; transform: translate(0, 0); }
+.repo:hover .repo-name-codeberg { color: #93c5fd; }
 
 .repo-slash {
-  font-family: var(--font-title);
-  font-size: 26px;
-  font-weight: 800;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 20px;
+  font-weight: 600;
   line-height: 1.1;
   color: var(--dim);
   display: flex;
@@ -457,7 +458,7 @@ footer {
   align-items: center;
   margin-top: 72px;
   opacity: 0;
-  animation: fadeUp 0.5s 0.35s ease forwards;
+  animation: fadeUp 0.4s 0.05s ease forwards;
 }
 
 .footer-links { display: flex; gap: 24px; list-style: none; }
@@ -474,7 +475,7 @@ footer {
 
 /* ── KEYFRAMES ── */
 @keyframes fadeUp {
-  from { opacity: 0; transform: translateY(14px); }
+  from { opacity: 0; transform: translateY(8px); }
   to   { opacity: 1; transform: translateY(0); }
 }
 
@@ -489,7 +490,6 @@ footer {
 
 /* ── RESPONSIVE ── */
 @media (max-width: 740px) and (min-width: 501px) {
-  .repo-list { grid-template-columns: repeat(2, 1fr); }
   .bio-inner { grid-template-columns: 1fr; gap: 16px; }
   .bio-location { margin-left: 0; }
   .bio-footer { flex-direction: column; align-items: flex-start; gap: 16px; }
@@ -502,9 +502,9 @@ footer {
   .bio-inner { grid-template-columns: 1fr; gap: 16px; }
   .hero { padding: 52px 22px 44px; flex-direction: column; align-items: flex-start; gap: 20px; }
   footer { flex-direction: column; gap: 14px; align-items: flex-start; }
-  .repo-name, .repo-name-codeberg, .repo-slash { font-size: 18px; }
+  .repo-name, .repo-name-codeberg, .repo-slash { font-size: 14px; }
   .repo-list { grid-template-columns: 1fr; }
-  .bio-highlight { font-size: 20px; }
+  .bio-highlight { font-size: 16px; }
   .bio-location { margin-left: 0; }
   .bio-footer { flex-direction: column; align-items: flex-start; gap: 16px; }
   .bio-label::after { display: none; }
@@ -553,16 +553,6 @@ footer {
           Student & Programmer based in Seattle. I code a variety of projects from preserving my native language to space simulations. Currently learning Go (golang). Also current maintainer of Lipi. My work lives on <a href="https://github.com/kikikian" target="_blank">GitHub</a> and <a href="https://codeberg.org/kikikian" target="_blank">Codeberg</a>.
         </p>
       </div>
-      
-      <div class="bio-divider"></div>
-      
-      <div class="bio-footer">
-        <div class="bio-tags">
-          <span class="bio-tag">Python</span>
-          <span class="bio-tag">Go</span>
-          <span class="bio-tag">JavaScript</span>
-          <span class="bio-tag">Linux</span>
-        </div>
         <div class="bio-location">
           <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
             <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/>
@@ -582,17 +572,9 @@ footer {
     <div class="repo">
       <div class="repo-header">
         <a class="repo-name" href="https://github.com/KikiKian/lipi" target="_blank" rel="noopener">lipi</a>
-        <span class="repo-slash">/</span>
         <a class="repo-name-codeberg" href="https://codeberg.org/kikikian/lipi" target="_blank" rel="noopener">lipi</a>
       </div>
-      <p class="repo-desc">A phonetic romanization system for Gujarati script.</p>
-    </div>
-
-    <div class="repo">
-      <div class="repo-header">
-        <a class="repo-name" href="https://github.com/KikiKian/orrery" target="_blank" rel="noopener">orrery</a>
-      </div>
-      <p class="repo-desc">A realistic simulation of planet gravity in space using real mathematical equations.</p>
+      <p class="repo-desc">Lipi is a phonetic romanization system for Gujarati script — my native language.</p>
     </div>
 
     <div class="repo">
@@ -600,14 +582,22 @@ footer {
         <a class="repo-name" href="https://github.com/KikiKian/transfer" target="_blank" rel="noopener">transfer</a>
         <a class="repo-name-codeberg" href="https://codeberg.org/kikikian/transfer" target="_blank" rel="noopener">transfer</a>
       </div>
-      <p class="repo-desc">A tool used to securely share files/projects between computers on the same network</p>
+      <p class="repo-desc">A tool that helps you transfer files from one computer to another on the same network securely.</p>
     </div>
 
     <div class="repo">
       <div class="repo-header">
-        <a class="repo-name" href="https://github.com/KikiKian/Kikis-Cloak" target="_blank" rel="noopener">kikis-cloak</a>
+        <a class="repo-name" href="https://github.com/KikiKian/orrery" target="_blank" rel="noopener">orrery</a>
       </div>
-      <p class="repo-desc">A lightweight Python tool that spoofs your MAC address on Linux, making your device unrecognizable to your router's device-based filters.</p>
+      <p class="repo-desc">A mechanical model of the solar system that illustrates the relative positions and motions of planets and moons in space.</p>
+    </div>
+
+    <div class="repo">
+      <div class="repo-header">
+        <a class="repo-name" href="https://github.com/kikikian/analytix" target="_blank" rel="noopener">analytix</a>
+        <a class="repo-name-codeberg" href="https://codeberg.org/kikikian/analytix" target="_blank" rel="noopener">analytix</a>
+      </div>
+      <p class="repo-desc">A TUI dashboard for monitoring CPU usage, RAM, network bandwidth, processes, LAN scanning, port scanning, and security tooling.</p>
     </div>
 
     <div class="repo">
@@ -616,14 +606,6 @@ footer {
       </div>
       <p class="repo-desc">A Python web scraper that extracts text from websites and generates AI-powered summaries using OpenAI's GPT models.</p>
     </div>
-
-    <div class="repo">
-      <div class="repo-header">
-        <a class="repo-name" href="https://github.com/KikiKian/Installer-Script-for-Rainmeter" target="_blank" rel="noopener">installer-script-for-rainmeter</a>
-      </div>
-      <p class="repo-desc">A script that downloads your Rainmeter mod to people's computers.</p>
-    </div>
-
   </div>
 </section>
 
